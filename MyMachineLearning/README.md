@@ -28,3 +28,23 @@ Los datos de salida son los valores que se esperan obtener de la red neuronal. E
 ### Resumen
 
 ```En resumen, los datos de entrada son los valores que "alimentan" la red neuronal y los datos de salida son los valores esperados como resultado. Los datos de entrada y salida son utilizados para entrenar y evaluar la red neuronal, permitiendo a la red aprender a realizar una tarea específica a partir de los datos de entrada y a producir un resultado esperado en los datos de salida.```
+
++--------------------+
+|    Neurona         |
++--------------------+
+| - pesos: double[]  |
+| - bias: double     |
+| - funcionActivacion|
++--------------------+
+| + CalcularSalida() |
++--------------------+
+
++--------------------+
+|    RedNeuronal     |
++--------------------+
+| - capaOculta:Neurona[]|
+| - capaSalida:Neurona[]|
++--------------------+
+| + Entrenar()        |
+| + PropagarEntrada() |
++--------------------+
