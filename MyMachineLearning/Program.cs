@@ -8,7 +8,6 @@ namespace MyMachineLearning
     /// </summary>
     internal class Program
     {
-
         /// <summary>
         /// Punto de entrada de la aplicación
         /// </summary>
@@ -49,11 +48,28 @@ namespace MyMachineLearning
         }
     }
 
+    /// <summary>
+    /// Clase que representa una red neuronal.
+    /// </summary>
     public class RedNeuronal
     {
+        /// <summary>
+        /// Arreglo de neuronas que conforman la capa oculta de la red neuronal.
+        /// </summary>
         public Neurona[] capaOculta { get; set; }
+        /// <summary>
+        /// Arreglo de neuronas que conforman la capa de salida de la red neuronal.
+        /// </summary>
         public Neurona[] capaSalida { get; set; }
 
+        /// <summary>
+        /// Constructor de la clase RedNeuronal.
+        /// Inicializa las capas oculta y de salida de acuerdo a los parámetros especificados.
+        /// </summary>
+        /// <param name="numEntradas">Número de entradas de la red neuronal.</param>
+        /// <param name="numNeuronasOcultas">Número de neuronas en la capa oculta.</param>
+        /// <param name="numNeuronasSalida">Número de neuronas en la capa de salida.</param>
+        /// <param name="funcionActivacion">Función de activación utilizada por las neuronas de la red.</param>
         public RedNeuronal(int numEntradas, int numNeuronasOcultas, int numNeuronasSalida, Func<double, double> funcionActivacion)
         {
             // Inicializar capa oculta
@@ -71,10 +87,19 @@ namespace MyMachineLearning
             }
         }
 
+        /// <summary>
+        /// Entrena la red neuronal con un conjunto de datos de entrenamiento.
+        /// </summary>
+        /// <param name="entradas">Arreglo de entradas para el entrenamiento.</param>
+        /// <param name="salidasEsperadas">Arreglo de salidas esperadas correspondientes a las entradas.</param>
+        /// <param name="numEpocas">Número de épocas de entrenamiento.</param>
+        /// <param name="tasaAprendizaje">Tasa de aprendizaje de la red neuronal.</param>
         public void Entrenar(double[][] entradas, double[][] salidasEsperadas, int numEpocas, double tasaAprendizaje)
         {
+            // Iterar por cada época de entrenamiento
             for (int e = 0; e < numEpocas; e++)
             {
+                // Iterar por cada conjunto de entrada
                 for (int i = 0; i < entradas.Length; i++)
                 {
                     // Propagar la entrada a través de la red
@@ -115,6 +140,11 @@ namespace MyMachineLearning
             }
         }
 
+        /// <summary>
+        /// Propaga una entrada a través de la red neuronal
+        /// </summary>
+        /// <param name="entrada">La entrada a propagar</param>
+        /// <returns>La salida de la capa después de propagar la entrada</returns>
         public double[] PropagarEntrada(double[] entrada)
         {
             double[] salidaOculta = PropagarEntrada(entrada, capaOculta);
@@ -122,6 +152,12 @@ namespace MyMachineLearning
             return salidaRed;
         }
 
+        /// <summary>
+        /// Propaga una entrada a través de la red neuronal
+        /// </summary>
+        /// <param name="entrada">La entrada a propagar</param>
+        /// <param name="capa">La capa a través de la cual propagar la entrada</param>
+        /// <returns>La salida de la capa después de propagar la entrada</returns>
         private double[] PropagarEntrada(double[] entrada, Neurona[] capa)
         {
             double[] salida = new double[capa.Length];
@@ -132,18 +168,41 @@ namespace MyMachineLearning
             return salida;
         }
 
+        /// <summary>
+        /// Calcula la derivada de la función sigmoide
+        /// </summary>
+        /// <param name="x">La entrada para la cual calcular la derivada</param>
+        /// <returns>La derivada de la función sigmoide en x</returns>
         private double DerivadaSigmoid(double x)
         {
             return x * (1 - x);
         }
     }
 
+    /// <summary>
+    /// Clase que representa una neurona.
+    /// </summary>
     public class Neurona
     {
+        /// <summary>
+        /// Los pesos de la neurona
+        /// </summary>
         public double[] pesos;
+        /// <summary>
+        /// El sesgo de la neurona
+        /// </summary>
         private double bias;
+        /// <summary>
+        /// La función de activación de la neurona
+        /// </summary>
         private Func<double, double> funcionActivacion;
 
+        /// <summary>
+        /// Constructor de la clase Neurona.
+        /// Inicializa los pesos y el bias de acuerdo a los parámetros especificados.
+        /// </summary>
+        /// <param name="numEntradas">Número de entradas de la neurona</param>
+        /// <param name="funcionActivacion">Función de activación de la neurona</param>
         public Neurona(int numEntradas, Func<double, double> funcionActivacion)
         {
             var rand = new Random();
@@ -152,6 +211,11 @@ namespace MyMachineLearning
             this.funcionActivacion = funcionActivacion;
         }
 
+        /// <summary>
+        /// Calcula la salida de la neurona para una entrada dada
+        /// </summary>
+        /// <param name="entrada">La entrada para la neurona</param>
+        /// <returns>La salida de la neurona</returns>
         public double CalcularSalida(double[] entrada)
         {
             if (entrada.Length != pesos.Length)
@@ -163,6 +227,12 @@ namespace MyMachineLearning
             return funcionActivacion(sumaPonderada);
         }
 
+        /// <summary>
+        /// Actualiza los pesos de la neurona
+        /// </summary>
+        /// <param name="entrada">Vector de entradas para la neurona</param>
+        /// <param name="delta">Delta de cambio en los pesos</param>
+        /// <param name="tasaAprendizaje">Tasa de aprendizaje</param>
         public void ActualizarPesos(double[] entrada, double error, double tasaAprendizaje)
         {
             for (int i = 0; i < pesos.Length; i++)
