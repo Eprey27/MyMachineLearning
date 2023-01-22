@@ -32,7 +32,7 @@ Los datos de salida son los valores que se esperan obtener de la red neuronal. E
 # DIAGRAMAS
 
 ## Clases
-
+```
 classDiagram
   class Neurona{
     +double[] pesos
@@ -51,19 +51,9 @@ classDiagram
   Neurona --> "*" Func<double, double>
   RedNeuronal --> "*" Neurona
   RedNeuronal --> Func<double, double>
-
-## Secuencia 
-
-sequenceDiagram
-  participant Neurona as Neurona
-  participant RedNeuronal as RedNeuronal
-  RedNeuronal->>Neurona: CalcularSalida(entrada)
-  Neurona-->>RedNeuronal: salida
-
+```
 ## Estructura
-
 ![class diagram RedNeuronal](https://user-images.githubusercontent.com/1908966/213896215-f0a02e91-79ee-495b-a8e3-d3cb535adac5.png)
-
 ```
 class RedNeuronal {
   -entradas: int
@@ -75,7 +65,6 @@ class RedNeuronal {
 }
 ```
 ![class diagram Neuronal](https://user-images.githubusercontent.com/1908966/213896223-dc904a91-9b21-487a-8d23-f2db1640a7af.png)
-
 ```
 class Neurona {
   -pesos: double[]
@@ -84,26 +73,27 @@ class Neurona {
   +CalcularSalida(entrada: double[]) : double
 }
 ```
-
-## Comportamiento
-
+## Secuencia
+![Comportamiento](https://user-images.githubusercontent.com/1908966/213896319-74165448-fd0e-4771-acf1-0e15172694cc.png)
+```
 sequenceDiagram
 participant RedNeuronal
 participant Neurona
 RedNeuronal->>Neurona: CalcularSalida(entrada)
 Neurona-->>RedNeuronal: salida
-
-
+```
 ## Paquetes
-
+```
 packagDiagram
 package "Red Neuronal" {
   class RedNeuronal
   class Neurona
 }
-
+```
 ## Estado
-
+![estado](https://user-images.githubusercontent.com/1908966/213896469-02c2577c-ffca-4bc1-ad51-24e6fb63dd13.png)
+```
 stateDiagram
 [*] --> Entrenando
 Entrenando --> [*]: Termina el entrenamiento
+```
