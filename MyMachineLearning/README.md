@@ -62,7 +62,7 @@ sequenceDiagram
 
 ## Estructura
 
-C:\temp\diagrams\mermaid\class diagram RedNeuronal.png
+![class diagram RedNeuronal](https://user-images.githubusercontent.com/1908966/213896215-f0a02e91-79ee-495b-a8e3-d3cb535adac5.png)
 
 ```
 class RedNeuronal {
@@ -74,7 +74,8 @@ class RedNeuronal {
   +PropagarEntrada(entrada: double[]) : double[]
 }
 ```
-C:\temp\diagrams\mermaid\class diagram Neuronal.png
+![class diagram Neuronal](https://user-images.githubusercontent.com/1908966/213896223-dc904a91-9b21-487a-8d23-f2db1640a7af.png)
+
 ```
 class Neurona {
   -pesos: double[]
