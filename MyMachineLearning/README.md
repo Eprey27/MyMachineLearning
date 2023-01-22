@@ -29,22 +29,74 @@ Los datos de salida son los valores que se esperan obtener de la red neuronal. E
 
 ```En resumen, los datos de entrada son los valores que "alimentan" la red neuronal y los datos de salida son los valores esperados como resultado. Los datos de entrada y salida son utilizados para entrenar y evaluar la red neuronal, permitiendo a la red aprender a realizar una tarea específica a partir de los datos de entrada y a producir un resultado esperado en los datos de salida.```
 
-+--------------------+
-|    Neurona         |
-+--------------------+
-| - pesos: double[]  |
-| - bias: double     |
-| - funcionActivacion|
-+--------------------+
-| + CalcularSalida() |
-+--------------------+
+# DIAGRAMAS
 
-+--------------------+
-|    RedNeuronal     |
-+--------------------+
-| - capaOculta:Neurona[]|
-| - capaSalida:Neurona[]|
-+--------------------+
-| + Entrenar()        |
-| + PropagarEntrada() |
-+--------------------+
+## Clases
+
+classDiagram
+  class Neurona{
+    +double[] pesos
+    +double bias
+    +Func<double, double> funcionActivacion
+    +CalcularSalida(double[] entrada)
+  }
+  class RedNeuronal{
+    +Neurona[] capaOculta
+    +Neurona[] capaSalida
+    +Func<double, double> funcionActivacion
+    +RedNeuronal(int numEntradas, int numNeuronasOcultas, int numNeuronasSalida, Func<double, double> funcionActivacion)
+    +Entrenar(double[][] entradas, double[][] salidasEsperadas, int numEpocas, double tasaAprendizaje)
+    +PropagarEntrada(double[] entrada)
+  }
+  Neurona --> "*" Func<double, double>
+  RedNeuronal --> "*" Neurona
+  RedNeuronal --> Func<double, double>
+
+## Secuencia 
+
+sequenceDiagram
+  participant Neurona as Neurona
+  participant RedNeuronal as RedNeuronal
+  RedNeuronal->>Neurona: CalcularSalida(entrada)
+  Neurona-->>RedNeuronal: salida
+
+## Estructura
+
+classDiagram
+class RedNeuronal {
+  -entradas: int
+  -neuronasOcultas: int
+  -neuronasSalida: int
+  -funcionActivacion: Func<double, double>
+  +Entrenar(entradas: double[][], salidasEsperadas: double[][], numEpocas: int, tasaAprendizaje: double) : void
+  +PropagarEntrada(entrada: double[]) : double[]
+}
+class Neurona {
+  -pesos: double[]
+  -bias: double
+  -funcionActivacion: Func<double, double>
+  +CalcularSalida(entrada: double[]) : double
+}
+
+## Comportamiento
+
+sequenceDiagram
+participant RedNeuronal
+participant Neurona
+RedNeuronal->>Neurona: CalcularSalida(entrada)
+Neurona-->>RedNeuronal: salida
+
+
+## Paquetes
+
+packagDiagram
+package "Red Neuronal" {
+  class RedNeuronal
+  class Neurona
+}
+
+## Estado
+
+stateDiagram
+[*] --> Entrenando
+Entrenando --> [*]: Termina el entrenamiento
