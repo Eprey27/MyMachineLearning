@@ -9,7 +9,10 @@ namespace MyMachineLearning
     internal class Program
     {
         /// <summary>
-        /// Punto de entrada de la aplicación
+        /// Punto de entrada de la aplicación. Esta es una función Main que crea una nueva instancia
+        /// de la clase RedNeuronal con parámetros específicos. Luego, entrena la red con un conjunto
+        /// de datos de entrenamiento, propagando una entrada a través de la red y mostrando la salida.
+        /// Finalmente, se espera que el usuario presione una tecla para finalizar.
         /// </summary>
         /// <param name="args">Argumentos de línea de comando</param>
         static void Main(string[] args)
