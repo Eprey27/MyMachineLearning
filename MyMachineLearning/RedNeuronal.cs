@@ -132,5 +132,34 @@ namespace MyMachineLearning
         {
             return x * (1 - x);
         }
+
+        /// <summary>
+        /// Clase que representa una neurona de la red neuronal.
+        /// </summary>        
+        internal object ObtenerPesos()
+        {
+            double[] pesos = new double[capaOculta.Length * capaOculta[0].pesos.Length + capaSalida.Length * capaSalida[0].pesos.Length];
+            int indice = 0;
+
+            foreach (Neurona neurona in capaOculta)
+            {
+                foreach (double peso in neurona.pesos)
+                {
+                    pesos[indice] = peso;
+                    indice++;
+                }
+            }
+
+            foreach (Neurona neurona in capaSalida)
+            {
+                foreach (double peso in neurona.pesos)
+                {
+                    pesos[indice] = peso; 
+                    indice++; 
+                } 
+            }
+
+            return pesos;    
+        }
     }
 }

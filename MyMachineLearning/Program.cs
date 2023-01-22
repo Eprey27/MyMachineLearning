@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace MyMachineLearning
 {
@@ -27,17 +28,42 @@ namespace MyMachineLearning
             // Entrenar la red con un conjunto de datos de entrenamiento
             double[][] entradas = new double[4][] { new double[] { 0, 0 }, new double[] { 0, 1 }, new double[] { 1, 0 }, new double[] { 1, 1 } };
             double[][] salidasEsperadas = new double[4][] { new double[] { 0 }, new double[] { 1 }, new double[] { 1 }, new double[] { 0 } };
-            int numEpocas = 30000;
-            double tasaAprendizaje = 0.1;
+            int numEpocas = 1000000;
+            double tasaAprendizaje = 0.001;
+
+            // Timer que recoja cuanto tarda en entrenar la red
+            var watch = System.Diagnostics.Stopwatch.StartNew();            
             red.Entrenar(entradas, salidasEsperadas, numEpocas, tasaAprendizaje);
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("Tiempo de entrenamiento: " + elapsedMs + " ms");            
+
+            // Objeto con los valores de todos los pesos de la red
+            var pesos = red.ObtenerPesos();
 
             // Propagar una entrada a través de la red y mostrar la salida
-            double[] entrada = new double[] { 0, 1 };
+            bool entrada1 = false;
+            bool entrada2 = true;
+
+            int entrada1Int = (entrada1 == true) ? 1 : 0;
+            int entrada2Int = (entrada2 == true) ? 1 : 0;
+
+            double[] entrada = new double[] { entrada1Int, entrada2Int };
             double[] salida = red.PropagarEntrada(entrada);
-            Console.WriteLine("Salida para la entrada [1, 1]: " + salida[0]);
+            Console.WriteLine($"Salida para la entrada [{entrada1Int}, {entrada2Int}]: " + salida[0]);
+
+            bool resultado = (salida[0] > 0.5) ? true : false;
+            Console.WriteLine("Resultado: " + resultado);        
+
+            // Serializar el objeto pesos a una variable de tipo string
+            string pesosSerializados = Newtonsoft.Json.JsonConvert.SerializeObject(pesos);
+
+            // escribir el string en la consola
+            Console.WriteLine(pesosSerializados);
+
 
             // espera del usuario para finalizar
-            Console.ReadKey();
+            // Console.ReadKey();
         }
 
         /// <summary>
