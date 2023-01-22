@@ -101,6 +101,8 @@ stateDiagram
 [*] --> Entrenando
 Entrenando --> [*]: Termina el entrenamiento
 
+- name: PlantUML Action
+  uses: Timmy/plantuml-action@v1
 
 
 ```plantuml
