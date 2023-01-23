@@ -154,12 +154,56 @@ namespace MyMachineLearning
             {
                 foreach (double peso in neurona.pesos)
                 {
-                    pesos[indice] = peso; 
-                    indice++; 
-                } 
+                    pesos[indice] = peso;
+                    indice++;
+                }
             }
 
-            return pesos;    
+            return pesos;
+        }
+
+        /// <summary>
+        /// Esta función se utiliza para setear los pesos de la red neuronal en la clase Program.
+        /// </summary>
+        /// <param name="pesos">Un arreglo de doubles que contiene los pesos a setear.</param>
+        public void SetearPesos(double[] pesos)
+        {
+            int indice = 0;
+
+            foreach (Neurona neurona in capaOculta)
+            {
+                for (int i = 0; i < neurona.pesos.Length; i++)
+                {
+                    neurona.pesos[i] = pesos[indice];
+                    indice++;
+                }
+            }
+
+            foreach (Neurona neurona in capaSalida)
+            {
+                for (int i = 0; i < neurona.pesos.Length; i++)
+                {
+                    neurona.pesos[i] = pesos[indice];
+                    indice++;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Esta función devuelve un valor booleano que indica si la red neuronal ha sido entrenada. 
+        /// Si el peso de la primera capa oculta es igual a 0, devuelve false, de lo contrario devuelve true.
+        /// </summary>
+        /// <returns>Un valor booleano que indica si la red neuronal ha sido entrenada.</returns>        
+        public bool Entrenada()
+        {
+            if (capaOculta[0].pesos[0] == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
