@@ -1,5 +1,6 @@
 # MyMachineLearning
-/MyMachineLearning/README.md
+
+https://github.com/Eprey27/MyMachineLearning/tree/master/MyMachineLearning
 
 #Feedforward Neural Networks (FFNNs)
 
