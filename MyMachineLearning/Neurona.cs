@@ -55,7 +55,7 @@ namespace MyMachineLearning
         /// Actualiza los pesos de la neurona
         /// </summary>
         /// <param name="entrada">Vector de entradas para la neurona</param>
-        /// <param name="delta">Delta de cambio en los pesos</param>
+        /// <param name="error">Error utilizado para ajustar los pesos</param>
         /// <param name="tasaAprendizaje">Tasa de aprendizaje</param>
         public void ActualizarPesos(double[] entrada, double error, double tasaAprendizaje)
         {
@@ -64,6 +64,24 @@ namespace MyMachineLearning
                 pesos[i] += tasaAprendizaje * error * entrada[i];
             }
             bias += tasaAprendizaje * error;
+        }
+
+        /// <summary>
+        /// Obtiene el sesgo (bias) actual de la neurona.
+        /// </summary>
+        /// <returns>El valor de sesgo almacenado.</returns>
+        public double ObtenerBias()
+        {
+            return bias;
+        }
+
+        /// <summary>
+        /// Establece el sesgo (bias) de la neurona.
+        /// </summary>
+        /// <param name="nuevoBias">El nuevo valor de sesgo a asignar.</param>
+        public void EstablecerBias(double nuevoBias)
+        {
+            bias = nuevoBias;
         }
     }
 }

@@ -105,12 +105,9 @@ namespace MyMachineLearning
             // Timer que recoja cuanto tarda en entrenar la red
             var watch = System.Diagnostics.Stopwatch.StartNew();
 
-            // no entrenar la red si ya se ha entrenado y se ha guardado el archivo de datos de entrenamiento
-            if (!System.IO.File.Exists(path))
-            {
-                red.Entrenar(entradas, salidasEsperadas, numEpocas, tasaAprendizaje);
-            }
-            else
+            bool parametrosCargados = false;
+
+            if (System.IO.File.Exists(path))
             {
                 // leer el archivo de datos de entrenamiento
                 json = System.IO.File.ReadAllText(path);
@@ -118,12 +115,19 @@ namespace MyMachineLearning
                 // comprobar si datosEntrenadosArray es null o no tiene datos para evitar errores de ejecución en la red neuronal
                 if (datosEntrenadosArray != null && datosEntrenadosArray.Any())
                 {
-                    red.SetearPesos(datosEntrenadosArray);
+                    try
+                    {
+                        red.SetearPesos(datosEntrenadosArray);
+                        parametrosCargados = true;
+                    }
+                    catch (ArgumentException)
+                    {
+                        Console.WriteLine("No fue posible cargar los parámetros almacenados, se realizará un nuevo entrenamiento.");
+                    }
                 }
             }
 
-            // entrenar la red si no ha sido datosEntrenadosArray es null o no tiene datos
-            if (red.Entrenada() == false)
+            if (!parametrosCargados)
             {
                 red.Entrenar(entradas, salidasEsperadas, numEpocas, tasaAprendizaje);
             }
@@ -132,7 +136,7 @@ namespace MyMachineLearning
             var elapsedMs = watch.ElapsedMilliseconds;
             Console.WriteLine("Tiempo de entrenamiento: " + elapsedMs + " ms");
 
-            // crear un conjunto de resultados de datos entrenados para evitat el entrenamiento de la red cada vez que se ejecuta el programa
+            // crear un conjunto de resultados de datos entrenados para evitar el entrenamiento de la red cada vez que se ejecuta el programa
             // el archivo se encuentra en la carpeta de salida del proyecto
             var datosEntrenados = red.ObtenerPesos();
             json = JsonConvert.SerializeObject(datosEntrenados);
