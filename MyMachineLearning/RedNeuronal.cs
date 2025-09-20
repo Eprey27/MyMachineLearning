@@ -136,30 +136,37 @@ namespace MyMachineLearning
         /// <summary>
         /// Clase que representa una neurona de la red neuronal.
         /// </summary>        
-        internal object ObtenerPesos()
+        internal double[] ObtenerPesos()
         {
-            double[] pesos = new double[capaOculta.Length * capaOculta[0].pesos.Length + capaSalida.Length * capaSalida[0].pesos.Length];
+            int totalParametros = capaOculta.Sum(n => n.pesos.Length + 1) + capaSalida.Sum(n => n.pesos.Length + 1);
+            double[] parametros = new double[totalParametros];
             int indice = 0;
 
             foreach (Neurona neurona in capaOculta)
             {
                 foreach (double peso in neurona.pesos)
                 {
-                    pesos[indice] = peso;
+                    parametros[indice] = peso;
                     indice++;
                 }
+
+                parametros[indice] = neurona.ObtenerBias();
+                indice++;
             }
 
             foreach (Neurona neurona in capaSalida)
             {
                 foreach (double peso in neurona.pesos)
                 {
-                    pesos[indice] = peso;
+                    parametros[indice] = peso;
                     indice++;
                 }
+
+                parametros[indice] = neurona.ObtenerBias();
+                indice++;
             }
 
-            return pesos;
+            return parametros;
         }
 
         /// <summary>
@@ -168,6 +175,12 @@ namespace MyMachineLearning
         /// <param name="pesos">Un arreglo de doubles que contiene los pesos a setear.</param>
         public void SetearPesos(double[] pesos)
         {
+            int totalParametrosEsperados = capaOculta.Sum(n => n.pesos.Length + 1) + capaSalida.Sum(n => n.pesos.Length + 1);
+            if (pesos.Length != totalParametrosEsperados)
+            {
+                throw new ArgumentException("La cantidad de pesos proporcionada no coincide con la estructura de la red.", nameof(pesos));
+            }
+
             int indice = 0;
 
             foreach (Neurona neurona in capaOculta)
@@ -177,6 +190,9 @@ namespace MyMachineLearning
                     neurona.pesos[i] = pesos[indice];
                     indice++;
                 }
+
+                neurona.EstablecerBias(pesos[indice]);
+                indice++;
             }
 
             foreach (Neurona neurona in capaSalida)
@@ -186,6 +202,9 @@ namespace MyMachineLearning
                     neurona.pesos[i] = pesos[indice];
                     indice++;
                 }
+
+                neurona.EstablecerBias(pesos[indice]);
+                indice++;
             }
         }
 
